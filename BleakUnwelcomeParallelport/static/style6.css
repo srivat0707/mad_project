@@ -1,0 +1,84 @@
+body {   background: linear-gradient(to right, #ffd89b, #19547b); }
+      .nav-pills{
+        
+        padding: 5px;
+      }
+      .nav-link{
+        font-weight: bold;
+            color: aliceblue;
+            font-size:22px;
+      }
+      #submit{
+        margin: 50px 50px 75px 50px;
+      }
+      #reverse{
+       margin-left: 48%;
+       margin-top: 7%;
+      }
+      #form{
+        margin: 30px 50px 75px 530px;
+      }
+      #rating{
+        margin-top: 10%;
+        margin-left: 1%;
+      }
+.flip-box {
+ 
+  margin: auto;
+  padding: 5px;
+          margin-top: 100px;
+  background-color: transparent;
+  width: 350px;
+  height: 250px;
+  perspective: 1000px;
+}
+
+.flip-box-inner {
+  box-shadow: 1px 8px 12px 4px rgba(0,0,0,0.4);
+  border-radius: 17px;
+  text-align: center;
+           color: aliceblue;
+           font-weight: bold;
+           font-size: 1.3em;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 2s;
+  transform-style: preserve-3d;
+}
+
+
+.flip-box-front, .flip-box-back {
+
+  border-radius: 17px;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+.flip-box-inner.do-flip {
+  transform: rotateY(-180deg);
+}
+
+.flip-box-front {
+  background: linear-gradient(to right, #c04848, #480048);
+  color:aliceblue;
+}
+
+.flip-box-back {
+  background: linear-gradient(to left, #c04848, #480048);
+  color: aliceblue;
+  transform: rotateY(180deg);
+}
+h2{
+  width: 350px;
+  margin-top: 20%;
+}
+.sp{
+      margin-right: 5%;
+}
+#rating{
+  color:#480048;
+  font-size: 1.3em;
+  font-weight: bold;
+}

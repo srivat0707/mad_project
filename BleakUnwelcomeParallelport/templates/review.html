@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<link rel="stylesheet" href={{ url_for('static', filename='style6.css') }}>
+    <title>Document</title>
+   
+</head>
+<body id="body">
+  <ul class="nav nav-pills">
+    <li class="nav-item">
+      <a class="nav-link" aria-current="page" href="/dashboard">Dashboard</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/deck_management">deck</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/logout">logout</a>
+    </li>
+  </ul>
+   <div class="flip-box">
+    <div class="flip-box-inner" id='1'>
+      <div class="flip-box-front">
+        <h2>{{ card.front }}</h2>
+      </div>
+      <div class="flip-box-back">
+        <h2>{{ card.back }}</h2>
+
+      </div>
+    </div>
+  </div>
+  <div id="reverse">
+    <button class="btn btn-primary btn-md" role="button">reverse</button>
+
+    <script>
+      var card=document.getElementById('1'); 
+          document.getElementById('reverse').addEventListener('click', function() {
+            document.getElementById("reverse").remove();
+            card.classList.toggle('do-flip');
+    setTimeout(myfunction, 2000);
+}, false);
+        function myfunction(){
+            document.getElementById("body").innerHTML+="<form method='POST' required id='form'><div id='rating'><span class='sp'><input type='radio' name='rating' value='1' required >bad   </span><span class='sp'>  <input type='radio' name='rating' value='2' required >ok  </span>  <span class='sp'><input type='radio' name='rating' value='3' required >good <div id='submit'><input type='submit' class='btn btn-success btn-md' role='button' value ='Submit'></span></div>";     
+            }
+    </script>
+</body>
+</html>

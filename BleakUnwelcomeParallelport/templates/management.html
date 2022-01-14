@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href={{ url_for('static', filename='style1.css') }}>
+    <link rel="stylesheet" href={{ url_for('static', filename='style2.css') }}>
+
+    <title>Document</title>
+
+</head>
+<body>
+  <ul class="nav nav-pills">
+    <li class="nav-item">
+      <a class="nav-link" href="/dashboard">Dashboard</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link " aria-current="page" href="#">deck</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/logout">logout</a>
+    </li>
+  </ul>
+        <h1>Deck Management</h1>
+        <div class="container">
+          {% for i in values %}
+          <div id={{loop.index}}>
+            <div class="row" >
+              <div class="col" id ="deck {{i.deck_id}}">
+                {{i.deck_name}}
+              </div>
+              <div class="col">
+                <span class="btn btn-warning btn-md" role="button" onclick="form(event)" data-count="{{loop.index}}" data-name="{{i.deck_id}}"><span class="glyphicon glyphicon-pencil"></span> update</span>
+              </div>
+              <div class="col">
+                <a class="btn btn-danger btn-md" role="button" href="/{{i.deck_id}}/delete"><span class="glyphicon glyphicon-pencil"></span> delete</a>
+              </div>
+              <div class="col">
+                <a href="/{{i.deck_id}}/card_management" class="btn btn-primary btn-md" role="button" >cards</a>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <div id="add">
+        <a href="/new_deck" class="btn btn-primary btn-md" role="button">add a new deck</a>
+      </div>
+        <script>
+          function form(event){
+            if (document.getElementById("form")==undefined){
+            s=event.target.dataset.count;
+            t=event.target.dataset.name;
+            document.getElementById(s).innerHTML+="<div id ='form' class='row' >"+ "<label>deck_name:</label><input type='text' id='data'name='deck_name' required autofocus maxlength='20' autocomplete='off' /><button class='btn btn-success btn-md' role='button' onclick='wow(event)' id='reverse'>submit</button></div>";
+          }
+          else{
+            document.getElementById("form").remove();
+            s=event.target.dataset.count;
+            t=event.target.dataset.name;
+            document.getElementById(s).innerHTML+="<div id ='form' class='row'>"+ "<label>deck_name:</label><input type='text' id='data'name='deck_name' required autofocus autocomplete='off' maxlength='20' /><button class='btn btn-success btn-md' role='button' onclick='wow(event)' id='reverse'>submit</button></div>";
+          }
+        }
+        
+          function wow(event){
+            a=['!','@','#','$','%','/','^','&','*','>','<','{','}',']','[',"'",'"',",",'-',"|",'~',"`"]
+            const formData = new FormData();
+            s=document.getElementById("data").value;
+            if (s == "") {
+            
+    alert("deck_name must be filled out");
+    return false;
+  }
+  for (i in s){
+    if (a.includes(s[i])){
+      alert("invalid input");
+    return false;
+    }
+  }
+            formData.append('deck_name', s);
+        
+            fetch("/"+t+"/update", {
+            method: 'POST',
+            body: formData,
+}).then(response => magic(response,t,s)).catch(err => alert(err))
+                }
+                function magic(response,t,s){
+                  console.log(response)
+                  if (response.status == 410) {
+          alert("dont pass empty input");
+          return;
+        }
+        if (response.status == 408) {
+          alert("dont pass invalid input");
+          return;
+        }
+        if (response.status == 409) {
+          alert("Duplicate input");
+          return;
+        }
+                  document.getElementById("deck "+t).innerHTML=s;
+                
+ 
+                  document.getElementById("form").remove();
+                }
+          
+        </script>
+</body>
+</html>

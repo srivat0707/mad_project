@@ -1,0 +1,22 @@
+
+  input{
+     background-color: transparent;
+     border: 1px solid black;
+     border-radius: 7px;
+}
+  #form{
+    box-shadow: 2px 2px 4px 2px rgba(0,0,0,0.2);
+    border-radius: 7px;
+      padding: 5px;margin: 20px;
+  }
+#button{
+            margin: 50px 50px 75px 45%;
+        }
+.rows{
+background: linear-gradient(to right, #0b8793, #360033); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+     color: aliceblue;
+    box-shadow: 2px 2px 4px 2px rgba(0,0,0,0.2);
+    border-radius: 7px;
+      padding: 5px;margin: 20px;
+}

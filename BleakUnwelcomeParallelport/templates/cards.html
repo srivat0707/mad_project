@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href={{ url_for('static', filename='style1.css') }}>
+    <link rel="stylesheet" href={{ url_for('static', filename='style2.css') }}>
+
+    <title>Document</title>
+    
+</head>
+<body>
+  <ul class="nav nav-pills">
+    <li class="nav-item">
+      <a class="nav-link" aria-current="page" href="/dashboard">Dashboard</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/deck_management">deck</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/logout">logout</a>
+    </li>
+  </ul>
+        <h1>Card Management</h1>
+        <div class="container">
+          {% for i in values %}
+          <div id={{loop.index}}>
+            <div class="row" >
+              <div class="col">
+                {{loop.index}}
+              </div>
+              <div class="col" id ="card_front {{i.card_id}}" >
+                {{i.front}}
+              </div>
+              <div class="col" id ="card_back {{i.card_id}}">
+                {{i.back}}
+              </div>
+              <div class="col">
+                <span class="btn btn-warning btn-md" role="button" onclick="form(event)" data-count="{{loop.index}}" data-name="{{i.deck_id}}" data-card="{{i.card_id}}">update</span>
+              </div>
+              <div class="col">
+                <a class="btn btn-danger btn-md" role="button" href="/{{i.deck_id}}/cards/{{i.card_id}}/delete">delete</a>
+              </div> 
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <div id="add">
+        <a href="/{{deck_id}}/new_card" class="btn btn-primary btn-md" role="button" >add a new card</a>
+        </div> 
+        <script>
+                function form(event){
+                  if (document.getElementById("form")==undefined){
+                  s=event.target.dataset.count;
+                  t=event.target.dataset.name;
+                  e=event.target.dataset.card;
+                  document.getElementById(s).innerHTML+="<div id = 'form' class='rows'>Front value:<input type='text' id='front'maxlength='20' autocomplete='off' required autofocus/>Back value:<input type='text' id='back' required maxlength='20' autocomplete='off' /><button class='btn btn-success btn-md' role='button' onclick='wow(event)' data-s='"+e+"'id='reverse'>go</button></div>";
+                }
+                else{
+                  document.getElementById("form").remove();
+                  s=event.target.dataset.count;
+                  t=event.target.dataset.name;
+                  e=event.target.dataset.card;
+                  document.getElementById(s).innerHTML+="<div id = 'form' class='rows'>Front value:<input type='text' id='front' required maxlength='20' autocomplete='off'  autofocus/>Back value:<input type='text' id='back' required maxlength='20' autocomplete='off' /><button class='btn btn-success btn-md' role='button' onclick='wow(event)' data-s='"+e+"'id='reverse'>go</button></div>";
+                }
+              }
+                function wow(){
+                  a=['!','@','#','$','%','/','^','&','*','>','<','{','}',']','[',"'",'"',",",'-',"|",'~',"`"]
+                  const formData = new FormData();
+                  s=document.getElementById("front").value;
+                  w=document.getElementById("back").value;
+                  if (s == "") {
+            
+            alert("front field must be filled out");
+            return false;
+          }
+          if (w == "") {
+            
+            alert("back field must be filled out");
+            return false;
+          }
+          for (i in s){
+            if (a.includes(s[i])){
+              alert("invalid input");
+            return false;
+            }
+          }
+          for (i in w){
+            if (a.includes(w[i])){
+              alert("invalid input");
+            return false;
+            }
+          }
+                  formData.append('front', s);
+                  formData.append('back', w);
+                  e=event.target.dataset.s;
+                  fetch("/"+t+"/card/"+e+"/update", {
+                  method: 'POST',
+                  body: formData,
+      }).then(response => magic(response,e))
+                }
+                function magic(response,e){
+                  console.log(response)
+                  if (response.status == 410) {
+          alert("dont pass empty input");
+          return;
+        }
+        if (response.status == 408) {
+          alert("dont pass invalid input");
+          return;
+        }
+        if (response.status == 409) {
+          alert("Duplicate input");
+          return;
+        }
+                  document.getElementById("card_front "+e).innerHTML=document.getElementById("front").value;
+                  document.getElementById("card_back "+e).innerHTML=document.getElementById("back").value;
+ 
+                  document.getElementById("form").remove();
+                }
+                
+              </script>
+        
+</body>
+</html>
