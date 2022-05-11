@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*; 
 import java.awt.event.*;    
+// dummy java
 public class demo{   
     String forms; 
     JFrame f;
